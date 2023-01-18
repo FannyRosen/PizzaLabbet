@@ -4,7 +4,7 @@ import { IMenu } from "../models/IMenu";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { motion } from "framer-motion";
-import { Box, Button, Grid, Link, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useShoppingCart } from "../contexts/ShoppingCartContext";
 import { CartItem } from "../contexts/ShoppingCartContext";
 import { Header } from "./Header";
@@ -63,8 +63,6 @@ export const Cart = (props: IOrderProps) => {
       )
       .then((response) => {
         setMadeOrder(response.data);
-        console.log("response.data: ", response.data);
-        console.log(response.data.restuarantId);
         setIsLoading(false);
       });
   }
@@ -171,6 +169,7 @@ export const Cart = (props: IOrderProps) => {
                             </Typography>
                             <Box sx={{ display: "flex", alignItems: "center" }}>
                               <Button
+                                data-testid="decrease"
                                 sx={{ color: "white" }}
                                 onClick={() => {
                                   decreaseCartQuantity(cartitem.id);
@@ -180,11 +179,12 @@ export const Cart = (props: IOrderProps) => {
                                 -{" "}
                               </Button>
 
-                              <Typography variant="body1">
+                              <Typography variant="body1" data-testid="qty">
                                 {cartitem.quantity}
                               </Typography>
 
                               <Button
+                                data-testid="increase"
                                 sx={{
                                   color: "white",
                                 }}
@@ -209,6 +209,7 @@ export const Cart = (props: IOrderProps) => {
                     })}
                     <Box color="white">Totalt: {itemsPrice} :-</Box>
                     <Button
+                      data-testid="place-order"
                       variant="contained"
                       component={motion.button}
                       whileTap={{ scale: 1.3, originX: 0 }}

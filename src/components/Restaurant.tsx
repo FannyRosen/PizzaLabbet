@@ -1,32 +1,13 @@
 import axios from "axios";
-import React, { useEffect, useState, createContext } from "react";
+import { useEffect, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { IMenu } from "../models/IMenu";
 import { IRestaurant } from "../models/IRestaurant";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { motion } from "framer-motion";
 import { useShoppingCart } from "../contexts/ShoppingCartContext";
-import { Box, Button, Grid, Link, SvgIcon, Typography } from "@mui/material";
-import ButtonUnstyled, {
-  buttonUnstyledClasses,
-} from "@mui/base/ButtonUnstyled";
-import { palette, styled } from "@mui/system";
-
+import { Box, Typography } from "@mui/material";
 import { Header } from "./Header";
-
-const CustomButton = styled(ButtonUnstyled)`
-  font-weight: bold;
-  font-size: 0.875rem;
-  background-color: #d85e0d;
-  padding: 4px 10px;
-  border-radius: 12px;
-  color: white;
-  transition: all 150ms ease;
-  cursor: pointer;
-  border: none;
-`;
 
 export interface IParams {
   id: string;
@@ -37,8 +18,7 @@ type StoreItemProps = {
 };
 
 export const Restaurant = ({ id }: StoreItemProps) => {
-  const { getItemQuantity, increaseCartQuantity } = useShoppingCart();
-  const quantity = getItemQuantity(id);
+  const { increaseCartQuantity } = useShoppingCart();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -65,7 +45,6 @@ export const Restaurant = ({ id }: StoreItemProps) => {
       )
       .then((response) => {
         setRestaurant(response.data);
-        console.log(restaurant);
         setIsLoading(false);
       });
   }
@@ -157,7 +136,10 @@ export const Restaurant = ({ id }: StoreItemProps) => {
                       </motion.button>
                     </Box>
                     {menu.topping ? (
-                      <Typography variant="body1">
+                      <Typography
+                        variant="body1"
+                        sx={{ marginLeft: 5, marginRight: 5 }}
+                      >
                         Toppings: {menu.topping?.join(", ")}
                       </Typography>
                     ) : null}

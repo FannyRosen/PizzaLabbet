@@ -6,6 +6,7 @@ import { IRestaurant } from "../models/IRestaurant";
 import video from "../assets/video3.mp4";
 import { motion } from "framer-motion";
 import { Box, Button, Grid, Link, Typography } from "@mui/material";
+import { CardMedia } from "@mui/material";
 
 export const Restaurants = () => {
   const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
@@ -43,7 +44,6 @@ export const Restaurants = () => {
             });
 
             setRestaurants(restaurantsWithDistances);
-            console.log(restaurantsWithDistances);
             setIsLoading(false);
           }
         );
@@ -57,93 +57,107 @@ export const Restaurants = () => {
   return (
     <>
       <Box
-      /*    sx={{
+        sx={{
           width: "100%",
           height: "100vh",
-          position: "absolute",
+          position: "relative",
           top: 0,
-        }} */
+        }}
       >
         <Box
-        /*    sx={{
+          sx={{
             position: "absolute",
             top: 0,
             left: 0,
             width: "100%",
-            height: "100%",
+            height: "100vh",
             backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }} */
+          }}
         ></Box>
-        {/* <video src={video} autoPlay loop muted> */}
+        <CardMedia
+          src={video}
+          component="video"
+          autoPlay
+          loop
+          muted
+          sx={{
+            objectFit: "cover",
+            width: "100%",
+            height: "100vh",
+          }}
+        ></CardMedia>
         {isLoading ? (
           <LoadingSpinner />
         ) : (
           <>
             <Box
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: 30,
+                position: "absolute",
+                height: "100vh -250px",
+                width: "100vw",
+                top: 250,
               }}
-              component={motion.div}
-              initial={{ y: -300 }}
-              animate={{ y: -25 }}
             >
-              <Typography
-                sx={{ zIndex: 100 }}
-                variant="h1"
-                component={motion.h1}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                component={motion.div}
+                initial={{ y: -300 }}
+                animate={{ y: -25 }}
               >
-                Welcome to Pizzlabbet
-              </Typography>
-              <Typography variant="body1" marginTop={2}>
-                Please choose a restaurant
-              </Typography>
-              <Grid
-                container
-                columns={{ xs: 4, sm: 8, md: 12 }}
-                alignItems="center"
-                style={{ width: "500px" }}
-              >
-                {restaurants.map((restaurant) => {
-                  return (
-                    <Grid
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                      item
-                      xs={12}
-                      sm={12}
-                      md={6}
-                      marginTop={5}
-                      key={restaurant.id}
-                    >
-                      <Link
-                        component={RouterLink}
-                        underline="none"
-                        to={"/restaurant/" + restaurant.id}
+                <Typography variant="h1" component={motion.h1}>
+                  Welcome to Pizzalabbet
+                </Typography>
+                <Typography variant="body1" marginTop={2}>
+                  Please choose a restaurant
+                </Typography>
+                <Grid
+                  container
+                  columns={{ xs: 4, sm: 8, md: 12 }}
+                  alignItems="center"
+                  style={{ width: "500px" }}
+                >
+                  {restaurants.map((restaurant) => {
+                    return (
+                      <Grid
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        item
+                        xs={12}
+                        sm={12}
+                        md={6}
+                        marginTop={5}
+                        key={restaurant.id}
                       >
-                        <Button
-                          data-testid="btn"
-                          variant="contained"
-                          component={motion.button}
-                          color="primary"
-                          whileTap={{ scale: 1.3, originX: 0 }}
-                          transition={{ type: "spring", stiffness: 300 }}
+                        <Link
+                          component={RouterLink}
+                          underline="none"
+                          to={"/restaurant/" + restaurant.id}
                         >
-                          {restaurant.name}
-                        </Button>
-                      </Link>
-                    </Grid>
-                  );
-                })}
-              </Grid>
+                          <Button
+                            data-testid="btn"
+                            variant="contained"
+                            component={motion.button}
+                            color="primary"
+                            whileTap={{ scale: 1.3, originX: 0 }}
+                            transition={{ type: "spring", stiffness: 300 }}
+                          >
+                            {restaurant.name}
+                          </Button>
+                        </Link>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </Box>
             </Box>
           </>
         )}
-        {/* </video> */}
       </Box>
     </>
   );

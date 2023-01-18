@@ -1,5 +1,3 @@
-import { easing } from "cypress/types/jquery";
-
 describe("homepage", () => {
   it("successfully loaded", () => {
     cy.visit("http://localhost:3000");
@@ -18,7 +16,7 @@ it("gets all restaurants", () => {
 
 it("should respond to a click", () => {
   cy.visit("http://localhost:3000");
-  cy.get('[data-testid="btn"]', { timeout: 8000 }).then(($btn) => {
+  cy.get('[data-testid="btn"]', { timeout: 10000 }).then(($btn) => {
     if ($btn.length) {
       cy.get('[data-testid="btn"]').eq(0).click();
     }

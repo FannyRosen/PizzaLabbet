@@ -4,10 +4,13 @@ export const LoadingSpinner = () => {
   return (
     <Box
       sx={{
+        position: "absolute",
+        height: "100vh",
+        width: "100vw",
+        top: 0,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 30,
       }}
     >
       <CircularProgress

@@ -63,17 +63,13 @@ export const Header = ({ id }: StoreItemProps) => {
               className="button-wrapper"
             >
               <Button
-                className="cart-button"
+                data-testid="cart"
                 variant="contained"
                 component={motion.button}
               >
                 <>
                   {" "}
-                  <FontAwesomeIcon
-                    id="cart-icon"
-                    className="icon"
-                    icon={faCartShopping}
-                  />
+                  <FontAwesomeIcon className="icon" icon={faCartShopping} />
                   <Typography data-testid="cart-items" variant="body1">
                     ({cartQuantity})
                   </Typography>

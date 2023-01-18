@@ -50,22 +50,15 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
       console.log(currItems);
 
       if (currItems.find((item) => item.id === id) == null) {
-        console.log("tom:");
         return [...currItems, { id, quantity: 1, name: name, price: price }];
       } else {
-        console.log("else 1");
         return currItems.map((item) => {
           if (item.id === id) {
-            console.log("item.id:", item.id);
-            console.log("id:", id);
-
-            console.log("if 2");
             return {
               ...item,
               quantity: item.quantity + 1,
             };
           } else {
-            console.log("else 2");
             return item;
           }
         });
@@ -75,13 +68,10 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
 
   function decreaseCartQuantity(id: number) {
     setCartItems((currItems) => {
-      console.log("currentItems:", currItems);
-
       if (currItems.find((item) => item.id === id)?.quantity === 1) {
         return currItems.filter((item) => item.id !== id);
       } else {
         return currItems.map((item) => {
-          console.log(item);
           if (item.id === id) {
             return { ...item, quantity: item.quantity - 1 };
           } else {
