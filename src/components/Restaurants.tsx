@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { IRestaurant } from "./models/IRestaurant";
-//import video from "../assets/video3.mp4";
+import { IRestaurant } from "../models/IRestaurant";
+import video from "../assets/video3.mp4";
 import { motion } from "framer-motion";
+import { Box, Button, Grid, Link, Typography } from "@mui/material";
 
 export const Restaurants = () => {
   const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
@@ -14,7 +15,7 @@ export const Restaurants = () => {
     setIsLoading(true);
     axios
       .get<IRestaurant[]>(
-        "https://private-anon-cf730f788f-pizzaapp.apiary-mock.com/restaurants/"
+        "https://private-anon-0b29b1c60c-pizzaapp.apiary-mock.com/restaurants/"
       )
       .then((response) => {
         navigator.geolocation.getCurrentPosition(
@@ -55,39 +56,95 @@ export const Restaurants = () => {
 
   return (
     <>
-      <div className="video-container">
-        <div className="overlay"></div>
-        {/*  <video src={video} autoPlay loop muted></video> */}
-
+      <Box
+      /*    sx={{
+          width: "100%",
+          height: "100vh",
+          position: "absolute",
+          top: 0,
+        }} */
+      >
+        <Box
+        /*    sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }} */
+        ></Box>
+        {/* <video src={video} autoPlay loop muted> */}
         {isLoading ? (
           <LoadingSpinner />
         ) : (
           <>
-            <motion.div
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: 30,
+              }}
+              component={motion.div}
               initial={{ y: -300 }}
               animate={{ y: -25 }}
-              className="restaurant-container"
             >
-              <motion.h1>Welcome to my Pizza App</motion.h1>
-              <p>Please choose a restaurant</p>
-              {restaurants.map((restaurant) => {
-                return (
-                  <div key={restaurant.id}>
-                    <Link to={"/restaurant/" + restaurant.id}>
-                      <motion.button
-                        whileTap={{ scale: 1.3, originX: 0 }}
-                        transition={{ type: "spring", stiffness: 300 }}
+              <Typography
+                sx={{ zIndex: 100 }}
+                variant="h1"
+                component={motion.h1}
+              >
+                Welcome to Pizzlabbet
+              </Typography>
+              <Typography variant="body1" marginTop={2}>
+                Please choose a restaurant
+              </Typography>
+              <Grid
+                container
+                columns={{ xs: 4, sm: 8, md: 12 }}
+                alignItems="center"
+                style={{ width: "500px" }}
+              >
+                {restaurants.map((restaurant) => {
+                  return (
+                    <Grid
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      item
+                      xs={12}
+                      sm={12}
+                      md={6}
+                      marginTop={5}
+                      key={restaurant.id}
+                    >
+                      <Link
+                        component={RouterLink}
+                        underline="none"
+                        to={"/restaurant/" + restaurant.id}
                       >
-                        {restaurant.name}
-                      </motion.button>
-                    </Link>
-                  </div>
-                );
-              })}
-            </motion.div>
+                        <Button
+                          data-testid="btn"
+                          variant="contained"
+                          component={motion.button}
+                          color="primary"
+                          whileTap={{ scale: 1.3, originX: 0 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          {restaurant.name}
+                        </Button>
+                      </Link>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Box>
           </>
         )}
-      </div>
+        {/* </video> */}
+      </Box>
     </>
   );
 };
