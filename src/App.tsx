@@ -29,7 +29,7 @@ theme.typography.h2 = {
     fontSize: "1rem",
   },
   [theme.breakpoints.up("md")]: {
-    fontSize: "1.4rem",
+    fontSize: "1rem",
   },
 };
 
