@@ -8,7 +8,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { useShoppingCart } from "../contexts/ShoppingCartContext";
 import { CartItem } from "../contexts/ShoppingCartContext";
 import { Header } from "./Header";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 interface IOrderProps {
@@ -107,7 +107,7 @@ export const Cart = (props: IOrderProps) => {
             </Box>
           ) : (
             <>
-              {itemsPrice == 0 ? (
+              {itemsPrice === 0 ? (
                 <>
                   <Box
                     sx={{

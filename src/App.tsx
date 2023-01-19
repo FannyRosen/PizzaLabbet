@@ -7,14 +7,6 @@ import { ShoppingCartProvider } from "../src/contexts/ShoppingCartContext";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { NotFound } from "./components/NotFound";
 
-/* const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#d85e0d",
-    },
-  },
-}); */
-
 const theme = createTheme();
 
 theme.typography.h1 = {
@@ -37,7 +29,7 @@ theme.typography.h2 = {
     fontSize: "1rem",
   },
   [theme.breakpoints.up("md")]: {
-    fontSize: "1rem",
+    fontSize: "1.4rem",
   },
 };
 

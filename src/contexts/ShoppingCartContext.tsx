@@ -12,8 +12,6 @@ export type CartItem = {
 };
 
 type ShoppingCartContext = {
-  openCart: () => void;
-  closeCart: () => void;
   getItemQuantity: (id: number) => number;
   increaseCartQuantity: (id: number, name: string, price: number) => void;
   decreaseCartQuantity: (id: number) => void;
@@ -29,16 +27,12 @@ export function useShoppingCart() {
 }
 
 export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const cartQuantity = cartItems.reduce(
     (quantity, item) => item.quantity + quantity,
     0
   );
-
-  const openCart = () => setIsOpen(true);
-  const closeCart = () => setIsOpen(false);
 
   // get number of specific pizza in cart
   function getItemQuantity(id: number) {
@@ -95,8 +89,6 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         increaseCartQuantity,
         decreaseCartQuantity,
         removeFromCart,
-        openCart,
-        closeCart,
         cartQuantity,
         cartItems,
       }}

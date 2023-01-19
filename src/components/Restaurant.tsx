@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link as RouterLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { IMenu } from "../models/IMenu";
 import { IRestaurant } from "../models/IRestaurant";
 import { LoadingSpinner } from "./LoadingSpinner";
