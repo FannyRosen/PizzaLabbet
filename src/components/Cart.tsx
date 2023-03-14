@@ -22,7 +22,7 @@ interface IOrderProps {
 }
 
 export const Cart = (props: IOrderProps) => {
-  const { increaseCartQuantity, decreaseCartQuantity, cartItems } =
+  const { increaseCartQuantity, decreaseCartQuantity, clearCart, cartItems } =
     useShoppingCart();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -214,7 +214,10 @@ export const Cart = (props: IOrderProps) => {
                       component={motion.button}
                       whileTap={{ scale: 1.3, originX: 0 }}
                       transition={{ type: "spring", stiffness: 300 }}
-                      onClick={placeOrder}
+                      onClick={() => {
+                        placeOrder();
+                        clearCart();
+                      }}
                     >
                       Place order
                     </Button>
