@@ -16,7 +16,7 @@ export const Restaurants = () => {
     setIsLoading(true);
     axios
       .get<IRestaurant[]>(
-        "https://private-anon-0b29b1c60c-pizzaapp.apiary-mock.com/restaurants/"
+        "https://private-anon-f516a4c55f-pizzaapp.apiary-mock.com/restaurants/"
       )
       .then((response) => {
         navigator.geolocation.getCurrentPosition(

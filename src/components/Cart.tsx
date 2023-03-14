@@ -40,7 +40,7 @@ export const Cart = (props: IOrderProps) => {
   function placeOrder() {
     axios
       .post(
-        "https://private-anon-0b29b1c60c-pizzaapp.apiary-mock.com/orders/",
+        "https://private-anon-f516a4c55f-pizzaapp.apiary-mock.com/orders/",
         props.cart
       )
       .then((response) => {
@@ -49,23 +49,23 @@ export const Cart = (props: IOrderProps) => {
   }
 
   useEffect(() => {
+    function getReadOrder() {
+      setIsLoading(true);
+      axios
+        .get<IReadOrder>(
+          "https://private-anon-f516a4c55f-pizzaapp.apiary-mock.com/orders/" +
+            orderId
+        )
+        .then((response) => {
+          setMadeOrder(response.data);
+          setIsLoading(false);
+        });
+    }
+
     if (orderId) {
       getReadOrder();
     }
   }, [orderId]);
-
-  function getReadOrder() {
-    setIsLoading(true);
-    axios
-      .get<IReadOrder>(
-        "https://private-anon-739f0e5ac9-pizzaapp.apiary-mock.com/orders/" +
-          orderId
-      )
-      .then((response) => {
-        setMadeOrder(response.data);
-        setIsLoading(false);
-      });
-  }
 
   return (
     <>

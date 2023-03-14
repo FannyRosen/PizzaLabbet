@@ -11,7 +11,7 @@ export type CartItem = {
   price: number;
 };
 
-type ShoppingCartContext = {
+type ShoppingCart = {
   getItemQuantity: (id: number) => number;
   increaseCartQuantity: (id: number, name: string, price: number) => void;
   decreaseCartQuantity: (id: number) => void;
@@ -20,7 +20,7 @@ type ShoppingCartContext = {
   cartItems: CartItem[];
 };
 
-const ShoppingCartContext = createContext({} as ShoppingCartContext);
+const ShoppingCartContext = createContext({} as ShoppingCart);
 
 export function useShoppingCart() {
   return useContext(ShoppingCartContext);

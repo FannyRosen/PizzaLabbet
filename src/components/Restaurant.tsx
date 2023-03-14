@@ -36,27 +36,26 @@ export const Restaurant = ({ id }: StoreItemProps) => {
 
   const params = useParams<Partial<IParams>>();
 
-  function getRestaurantData() {
-    setIsLoading(true);
-    axios
-      .get<IRestaurant>(
-        "https://private-anon-0b29b1c60c-pizzaapp.apiary-mock.com/restaurants/" +
-          params.id
-      )
-      .then((response) => {
-        setRestaurant(response.data);
-        setIsLoading(false);
-      });
-  }
-
   useEffect(() => {
+    function getRestaurantData() {
+      setIsLoading(true);
+      axios
+        .get<IRestaurant>(
+          "https://private-anon-f516a4c55f-pizzaapp.apiary-mock.com/restaurants/" +
+            params.id
+        )
+        .then((response) => {
+          setRestaurant(response.data);
+          setIsLoading(false);
+        });
+    }
     getRestaurantData();
-  }, []);
+  }, [params.id]);
 
   useEffect(() => {
     axios
       .get<IMenu[]>(
-        "https://private-anon-0b29b1c60c-pizzaapp.apiary-mock.com/restaurants/" +
+        "https://private-anon-f516a4c55f-pizzaapp.apiary-mock.com/restaurants/" +
           params.id +
           "/menu?category=Pizza&orderBy=rank"
       )
@@ -64,7 +63,7 @@ export const Restaurant = ({ id }: StoreItemProps) => {
       .then((response) => {
         setMenuItems(response.data);
       });
-  }, []);
+  }, [params.id]);
 
   return (
     <>
