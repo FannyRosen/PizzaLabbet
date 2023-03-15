@@ -60,6 +60,7 @@ export const Cart = (props: IOrderProps) => {
           setMadeOrder(response.data);
           setIsLoading(false);
         });
+      clearCart();
     }
 
     if (orderId) {
@@ -216,7 +217,6 @@ export const Cart = (props: IOrderProps) => {
                       transition={{ type: "spring", stiffness: 300 }}
                       onClick={() => {
                         placeOrder();
-                        clearCart();
                       }}
                     >
                       Place order
