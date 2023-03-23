@@ -66,24 +66,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Restaurants />}></Route>
-            <Route
-              path="/restaurant/:id"
-              element={<Restaurant id={0} />}
-            ></Route>
-            <Route
-              path="/cart"
-              element={
-                <Cart
-                  cart={[]}
-                  restaurantId={0}
-                  menu={[]}
-                  totalPrice={0}
-                  id={0}
-                  name={""}
-                  price={0}
-                />
-              }
-            ></Route>
+            <Route path="/restaurant/:id" element={<Restaurant />}></Route>
+            <Route path="/cart" element={<Cart />}></Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

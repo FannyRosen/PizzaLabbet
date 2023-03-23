@@ -11,7 +11,7 @@ import { Header } from "./Header";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-interface IOrderProps {
+/* interface IOrderProps {
   cart: CartItem[];
   restaurantId: number;
   menu: IMenu[];
@@ -19,11 +19,16 @@ interface IOrderProps {
   id: number;
   name: string;
   price: number;
-}
+} */
 
-export const Cart = (props: IOrderProps) => {
-  const { increaseCartQuantity, decreaseCartQuantity, clearCart, cartItems } =
-    useShoppingCart();
+export const Cart = () => {
+  const {
+    increaseCartQuantity,
+    decreaseCartQuantity,
+    clearCart,
+    cartItems,
+    restaurantId,
+  } = useShoppingCart();
 
   const [isLoading, setIsLoading] = useState(false);
   const [madeOrder, setMadeOrder] = useState<IReadOrder>();
@@ -35,15 +40,30 @@ export const Cart = (props: IOrderProps) => {
 
   const itemsPrice = cartItems.reduce((a, c) => a + c.price * c.quantity, 0);
 
-  console.log(cartItems);
+  console.log("cart items: ", cartItems);
 
   function placeOrder() {
+    const newArray = cartItems.map((item) => {
+      const newObject = {
+        id: item.id,
+        quantity: item.quantity,
+      };
+      return newObject;
+    });
+
+    const data = {
+      cart: newArray,
+      restaurantId: parseInt(restaurantId),
+    };
+
     axios
       .post(
-        "https://private-anon-f516a4c55f-pizzaapp.apiary-mock.com/orders/",
-        props.cart
+        "https://us-central1-pizza-app-4f927.cloudfunctions.net/pizzaApp-app/orders",
+        data
       )
       .then((response) => {
+        console.log("response post cart: ", response);
+
         setOrderId(response.data.orderId);
       });
   }
@@ -53,7 +73,7 @@ export const Cart = (props: IOrderProps) => {
       setIsLoading(true);
       axios
         .get<IReadOrder>(
-          "https://private-anon-f516a4c55f-pizzaapp.apiary-mock.com/orders/" +
+          "https://us-central1-pizza-app-4f927.cloudfunctions.net/pizzaApp-app/orders/" +
             orderId
         )
         .then((response) => {

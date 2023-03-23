@@ -15,14 +15,21 @@ export const Restaurants = () => {
   function getData() {
     setIsLoading(true);
     axios
-      .get<IRestaurant[]>(
-        "https://private-anon-f516a4c55f-pizzaapp.apiary-mock.com/restaurants/"
+      .get<{ data: IRestaurant[] }>(
+        "https://us-central1-pizza-app-4f927.cloudfunctions.net/pizzaApp-app/restaurants"
       )
       .then((response) => {
+        if (!navigator.geolocation) {
+          // Handle case where geolocation is not supported
+          console.log("Geolocation is not supported by your browser");
+          setRestaurants(response.data.data);
+          setIsLoading(false);
+          return;
+        }
         navigator.geolocation.getCurrentPosition(
           (currentLocation: GeolocationPosition) => {
-            let restaurantsWithDistances: IRestaurant[] = response.data.map(
-              (restaurant) => {
+            let restaurantsWithDistances: IRestaurant[] =
+              response.data.data.map((restaurant: IRestaurant) => {
                 return {
                   ...restaurant,
                   distance: Math.sqrt(
@@ -36,14 +43,22 @@ export const Restaurants = () => {
                       )
                   ),
                 };
-              }
-            );
+              });
 
             restaurantsWithDistances.sort(function (a, b) {
               return a.distance - b.distance;
             });
 
             setRestaurants(restaurantsWithDistances);
+            setIsLoading(false);
+          },
+          (error: GeolocationPositionError) => {
+            // Handle case where geolocation is not enabled
+            console.log("Geolocation is not enabled:", error.message);
+            alert(
+              "You do not have your geolocation turned on. Note that the restaurants listed are not based on your current location"
+            );
+            setRestaurants(response.data.data);
             setIsLoading(false);
           }
         );

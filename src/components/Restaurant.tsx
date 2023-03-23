@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { useShoppingCart } from "../contexts/ShoppingCartContext";
 import { Box, Typography } from "@mui/material";
 import { Header } from "./Header";
+import { log } from "console";
 
 export interface IParams {
   id: string;
@@ -17,8 +18,8 @@ type StoreItemProps = {
   id: number;
 };
 
-export const Restaurant = ({ id }: StoreItemProps) => {
-  const { increaseCartQuantity } = useShoppingCart();
+export const Restaurant = () => {
+  const { increaseCartQuantity, handleRestaurantId } = useShoppingCart();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,23 +42,27 @@ export const Restaurant = ({ id }: StoreItemProps) => {
       setIsLoading(true);
       axios
         .get<IRestaurant>(
-          "https://private-anon-f516a4c55f-pizzaapp.apiary-mock.com/restaurants/" +
+          "https://us-central1-pizza-app-4f927.cloudfunctions.net/pizzaApp-app/restaurants/" +
             params.id
         )
         .then((response) => {
+          console.log("res", response);
+
           setRestaurant(response.data);
+          handleRestaurantId(params.id ?? "");
           setIsLoading(false);
         });
     }
+
     getRestaurantData();
   }, [params.id]);
 
   useEffect(() => {
     axios
       .get<IMenu[]>(
-        "https://private-anon-f516a4c55f-pizzaapp.apiary-mock.com/restaurants/" +
+        "https://us-central1-pizza-app-4f927.cloudfunctions.net/pizzaApp-app/restaurants/" +
           params.id +
-          "/menu?category=Pizza&orderBy=rank"
+          "/menu"
       )
 
       .then((response) => {

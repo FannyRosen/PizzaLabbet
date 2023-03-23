@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react";
+import { IMenu } from "../models/IMenu";
 
 type ShoppingCartProviderProps = {
   children: ReactNode;
@@ -11,6 +12,16 @@ export type CartItem = {
   price: number;
 };
 
+type Order = {
+  cart: CartItem[];
+  restaurantId: number;
+  menu: IMenu[];
+  totalPrice: number;
+  id: number;
+  name: string;
+  price: number;
+};
+
 type ShoppingCart = {
   getItemQuantity: (id: number) => number;
   increaseCartQuantity: (id: number, name: string, price: number) => void;
@@ -19,6 +30,8 @@ type ShoppingCart = {
   clearCart: () => void;
   cartQuantity: number;
   cartItems: CartItem[];
+  restaurantId: string;
+  handleRestaurantId: (id: string) => void;
 };
 
 const ShoppingCartContext = createContext({} as ShoppingCart);
@@ -29,6 +42,7 @@ export function useShoppingCart() {
 
 export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [restaurantId, setRestaurantId] = useState<string>("");
 
   const cartQuantity = cartItems.reduce(
     (quantity, item) => item.quantity + quantity,
@@ -83,6 +97,12 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     });
   }
 
+  function handleRestaurantId(id: string) {
+    if (id) {
+      setRestaurantId(id);
+    }
+  }
+
   function clearCart() {
     setCartItems([]);
   }
@@ -97,6 +117,8 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         cartQuantity,
         cartItems,
         clearCart,
+        restaurantId,
+        handleRestaurantId,
       }}
     >
       {children}

@@ -7,5 +7,5 @@ export interface IReadOrder {
   esitmatedDelivery: string;
   status: string;
   cart: ICartItem[];
-  restuarantId: number;
+  restaurantId: number;
 }
