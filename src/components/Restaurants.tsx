@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { IRestaurant } from "../models/IRestaurant";
@@ -11,6 +11,7 @@ import { CardMedia } from "@mui/material";
 export const Restaurants = () => {
   const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const alerted = useRef<boolean>(false);
 
   function getData() {
     setIsLoading(true);
@@ -55,11 +56,16 @@ export const Restaurants = () => {
           (error: GeolocationPositionError) => {
             // Handle case where geolocation is not enabled
             console.log("Geolocation is not enabled:", error.message);
-            alert(
-              "You do not have your geolocation turned on. Note that the restaurants listed are not based on your current location"
-            );
-            setRestaurants(response.data.data);
-            setIsLoading(false);
+            if (!alerted.current) {
+              alert(
+                "You do not have your geolocation turned on. Note that the restaurants listed are not based on your current location"
+              );
+              alerted.current = true;
+            }
+            if (alerted.current) {
+              setRestaurants(response.data.data);
+              setIsLoading(false);
+            }
           }
         );
       });
