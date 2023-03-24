@@ -1,5 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from "react";
-import { IMenu } from "../models/IMenu";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
 
 type ShoppingCartProviderProps = {
   children: ReactNode;
@@ -8,16 +13,6 @@ type ShoppingCartProviderProps = {
 export type CartItem = {
   id: number;
   quantity: number;
-  name: string;
-  price: number;
-};
-
-type Order = {
-  cart: CartItem[];
-  restaurantId: number;
-  menu: IMenu[];
-  totalPrice: number;
-  id: number;
   name: string;
   price: number;
 };
@@ -97,15 +92,15 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     });
   }
 
-  function handleRestaurantId(id: string) {
+  const handleRestaurantId = useCallback((id: string) => {
     if (id) {
       setRestaurantId(id);
     }
-  }
+  }, []);
 
-  function clearCart() {
+  const clearCart = useCallback(() => {
     setCartItems([]);
-  }
+  }, []);
 
   return (
     <ShoppingCartContext.Provider

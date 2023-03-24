@@ -1,25 +1,13 @@
 import { useEffect, useState } from "react";
 import { IReadOrder } from "../models/IReadOrder";
-import { IMenu } from "../models/IMenu";
 import axios from "axios";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { motion } from "framer-motion";
 import { Box, Button, Typography } from "@mui/material";
 import { useShoppingCart } from "../contexts/ShoppingCartContext";
-import { CartItem } from "../contexts/ShoppingCartContext";
 import { Header } from "./Header";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
-/* interface IOrderProps {
-  cart: CartItem[];
-  restaurantId: number;
-  menu: IMenu[];
-  totalPrice: number;
-  id: number;
-  name: string;
-  price: number;
-} */
 
 export const Cart = () => {
   const {
@@ -39,8 +27,6 @@ export const Cart = () => {
   };
 
   const itemsPrice = cartItems.reduce((a, c) => a + c.price * c.quantity, 0);
-
-  console.log("cart items: ", cartItems);
 
   function placeOrder() {
     const newArray = cartItems.map((item) => {
@@ -62,8 +48,6 @@ export const Cart = () => {
         data
       )
       .then((response) => {
-        console.log("response post cart: ", response);
-
         setOrderId(response.data.orderId);
       });
   }
@@ -86,7 +70,7 @@ export const Cart = () => {
     if (orderId) {
       getReadOrder();
     }
-  }, [orderId]);
+  }, [orderId, clearCart]);
 
   return (
     <>
@@ -120,7 +104,7 @@ export const Cart = () => {
                 Ordered at: {madeOrder?.orderedAt}
               </Typography>
               <Typography variant="body1">
-                Estimated delivery: {madeOrder?.esitmatedDelivery}
+                Estimated delivery: {madeOrder?.estimatedDelivery}
               </Typography>
               <Typography variant="body1">
                 Status: "{madeOrder?.status}"

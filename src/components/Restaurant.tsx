@@ -8,15 +8,10 @@ import { motion } from "framer-motion";
 import { useShoppingCart } from "../contexts/ShoppingCartContext";
 import { Box, Typography } from "@mui/material";
 import { Header } from "./Header";
-import { log } from "console";
 
 export interface IParams {
   id: string;
 }
-
-type StoreItemProps = {
-  id: number;
-};
 
 export const Restaurant = () => {
   const { increaseCartQuantity, handleRestaurantId } = useShoppingCart();
@@ -46,8 +41,6 @@ export const Restaurant = () => {
             params.id
         )
         .then((response) => {
-          console.log("res", response);
-
           setRestaurant(response.data);
           handleRestaurantId(params.id ?? "");
           setIsLoading(false);
@@ -55,7 +48,7 @@ export const Restaurant = () => {
     }
 
     getRestaurantData();
-  }, [params.id]);
+  }, [params.id, handleRestaurantId]);
 
   useEffect(() => {
     axios
